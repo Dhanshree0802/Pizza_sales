@@ -1,181 +1,70 @@
-# Pizza_sales
+# 🍕 Pizza Sales Analysis using SQL
 
-Here’s a polished `README.md` for your SQL portfolio project, including a link to a public dataset you can use to simulate your work. Just copy this into your repo before your interview—you'll have a credible artifact ready to show.
+## 📌 Project Overview
+This project demonstrates end-to-end data analysis using SQL on a real-world **Pizza Sales** dataset. From data importing to complex queries, this project covers all essential steps required in the life cycle of a typical data analysis task performed by **Business Analysts** and **Data Analysts** in the food & beverage industry.
 
----
-
-```markdown
-# 📊 SQL Data Analysis Portfolio Project
-
-**Project Summary**  
-A self-led end-to-end SQL data analysis project using a public sales dataset. Demonstrates ability to structure data, perform exploratory analysis, and extract actionable business insights.
+The goal was to extract meaningful insights from sales data to drive business decisions such as identifying popular pizza types, analyzing revenue trends, and understanding customer preferences over time.
 
 ---
 
-## 🔗 Dataset
+## 🗂️ Dataset Details
 
-This project uses the **Sample Sales Data** from Kaggle, which includes orders, customers, products, and sales details:
+### Tables Used:
+- `orders` – Order date, time, and IDs  
+- `order_details` – Order-specific pizza quantities and IDs  
+- `pizzas` – Pizza names, categories, sizes, and prices  
+- `pizza_types` – Additional metadata like ingredients and flavor category  
 
-**Download link:**  
-[Sample Sales Data – Kaggle](https://www.kaggle.com/datasets/kyanyoga/sample-sales-data) :contentReference[oaicite:1]{index=1}
-
----
-
-## 📁 Repository Structure
-
-```
-
-/project-root/
-├── data/                   # Raw dataset CSV files
-├── schema/                 # SQL scripts: create tables & load data
-├── queries/                # SQL analysis scripts
-├── outputs/                # Exported query results (CSV/images)
-└── README.md               # This file
-
-````
-
-- **data/**: Contains CSVs downloaded from Kaggle.
-- **schema/**: Scripts to create tables, define relationships, and load CSV data.
-- **queries/**: Organized by analytical steps:
-  - `01_explore.sql`
-  - `02_aggregations.sql`
-  - `03_time_trends.sql`
-  - `04_customer_spend.sql`
-  - `05_product_performance.sql`
-- **outputs/**: Results of queries, screenshots or CSVs, and optional BI visuals.
+**Data Source**: Provided as `.csv` files and imported into an SQL database for analysis
 
 ---
 
-## 🛠️ Setup & Running Instructions
+## 🛠️ Project Workflow
 
-1. **Clone the repository**  
-   ```bash
-   git clone https://github.com/your_username/your_repo.git
-   cd your_repo
-````
-
-2. **Download dataset**
-   Save the CSV files from the Kaggle link above into the `data/` folder.
-
-3. **Run schema scripts**
-
-   ```sql
-   -- In your SQL client (e.g. PostgreSQL)
-   \i schema/create_tables.sql
-   \i schema/load_data.sql
-   ```
-
-4. **Run query scripts**
-   Execute `queries/*.sql` files in sequence to replicate the analysis.
-
-5. **Review outputs**
-   Check the `outputs/` directory for CSVs or visualizations.
+### 🧱 Step 1: Database Setup & Data Import
+- Created a SQL database for the project  
+- Imported `.csv` files into corresponding SQL tables  
+- Ensured proper data types and relationships across tables  
 
 ---
 
-## 📌 Analytical Steps & SQL Highlights
+## 🔍 Analysis Stages
 
-### 1. Data Exploration
+### ✅ Basic SQL Analysis
+- ✅ Calculated the **total number of orders** placed  
+- ✅ Computed **total revenue** generated from all pizza sales  
+- ✅ Identified the **highest-priced pizza**  
+- ✅ Found the **most common pizza size** ordered  
+- ✅ Retrieved the **Top 5 most ordered pizza types** along with total quantities  
 
-* Structure and preview raw tables:
+### 🟡 Intermediate SQL Analysis
+- 🟡 Joined necessary tables to determine the **total quantity of each pizza category** ordered  
+- 🟡 Analyzed **order distribution by hour of the day** to understand peak hours  
+- 🟡 Grouped orders by category to find **category-wise sales distribution**  
+- 🟡 Grouped orders by date and computed **average number of pizzas ordered per day**  
+- 🟡 Identified **Top 3 most ordered pizza types based on revenue**  
 
-  ```sql
-  SELECT * FROM customers LIMIT 10;
-  SELECT * FROM orders LIMIT 10;
-  ```
-
-### 2. Aggregations & Metrics
-
-* Total orders and unique customers:
-
-  ```sql
-  SELECT COUNT(*) AS total_orders,
-         COUNT(DISTINCT customer_id) AS unique_customers
-    FROM orders;
-  ```
-
-### 3. Time-Based Trends
-
-* Monthly orders and revenue:
-
-  ```sql
-  SELECT DATE_TRUNC('month', o.order_date) AS month,
-         COUNT(*) AS total_orders,
-         SUM(oi.quantity * oi.unit_price) AS revenue
-    FROM orders o
-    JOIN order_items oi ON o.id = oi.order_id
-    GROUP BY month
-    ORDER BY month;
-  ```
-
-### 4. Customer Spending Analysis
-
-* Top 10 customers by spend:
-
-  ```sql
-  SELECT o.customer_id,
-         SUM(oi.quantity * oi.unit_price) AS total_spent
-    FROM orders o
-    JOIN order_items oi ON o.id = oi.order_id
-    GROUP BY o.customer_id
-    ORDER BY total_spent DESC
-    LIMIT 10;
-  ```
-
-### 5. Product Performance Insights
-
-* Top-selling products:
-
-  ```sql
-  SELECT oi.product_id,
-         SUM(oi.quantity) AS total_qty
-    FROM order_items oi
-    GROUP BY oi.product_id
-    ORDER BY total_qty DESC
-    LIMIT 10;
-  ```
+### 🔴 Advanced SQL Insights
+- 🔴 Calculated **percentage revenue contribution** of each pizza type to total revenue  
+- 🔴 Analyzed **cumulative revenue over time** to observe growth trends  
+- 🔴 Segmented **Top 3 pizza types by revenue within each category** using advanced joins and subqueries  
 
 ---
 
-## 📈 Key Insights & Business Takeaways
-
-* **Seasonal Trends**: Identified peak sales months that can guide marketing campaigns.
-* **Customer Concentration**: Top 10 customers contribute \~40% of total revenue.
-* **Product Prioritization**: A small set of products drive majority of sales volume.
-* **Recommendations**:
-
-  * Prioritize inventory and promotions around peak seasons.
-  * Build targeted campaigns for high-spend customers.
-  * Allocate resources to high-performing product lines.
+## 📈 Sample Insights Generated
+- 🍕 **Most ordered pizza**: Classic Deluxe  
+- 💰 **Top revenue generator**: BBQ Chicken Pizza  
+- 🕒 **Peak order time**: 7 PM to 9 PM  
+- 📊 **Category with highest order volume**: Classic  
 
 ---
 
-## 💡 Project Learnings
-
-* Advanced use of **JOIN**, **aggregation**, **group-by**, and **date functions** in SQL.
-* Emphasized **business storytelling**: starting from data introduction → analysis → insights → recommendations.
-* Prepared a reusable and interview-ready analytical project with clear structure and outputs.
-
----
-
-## 🎙️ Interview Conversation Tips
-
-* Walk interviewers through:
-
-  1. How you selected and ingested the dataset.
-  2. Your questioning approach (e.g. “Which months had highest revenue?”).
-  3. The SQL logic and results.
-  4. Practical business implications of your findings.
+## 🧠 What I Learned
+- Practical use of **SQL joins, subqueries, groupings, and window functions**  
+- Business-driven analysis techniques using **structured queries**  
+- Query optimization and **real-time insight extraction**  
+- Using **SQL as a standalone analysis tool** without needing BI tools  
 
 ---
 
-## 📎 Next Steps You Could Mention
-
-* Customer segmentation analysis or cohort retention queries.
-* Churn prediction using time-based purchasing patterns.
-* A simple dashboard in Tableau or PowerBI using CSV outputs.
-* Forecasting sales trends for next quarter or year.
-
----
-
-Best of luck in your interview tomorrow! This README sets a strong foundation—you can confidently talk through each section and share how you executed it in SQL.
+> ✅ This project serves as a complete roadmap to performing structured SQL-based analysis, from importing raw data to deriving business-ready insights.
